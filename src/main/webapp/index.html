@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
+
+    <title>TO DO LIST</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="index.js"></script>
+<div class="container-fluid gradient-custom">
+
+    <p class="h1 text-center mt-3 mb-4 pb-3 text-info">
+        <u>TO DO LIST</u>
+    </p>
+
+    <form onsubmit="addItem(); return false;">
+        <div class="form-row justify-content-md-center">
+            <div class="col col-lg-5">
+                <input type="text" class="form-control" placeholder="Add new..." id="description" required
+                       oninvalid="this.setCustomValidity('Добавьте описание задачи')"
+                       oninput="this.setCustomValidity('')">
+            </div>
+            <div class="col-md-auto">
+            <select class="custom-select" id="selectPriority" required>
+            </select>
+            </div>
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-info mb-2">ADD</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row justify-content-center align-items-center pt-1">
+        <label id="notification" style="color: red"></label>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="container">
+        <form>
+            <div class="form-row justify-content-end align-items-center mb-4 pt-2 pb-3">
+                <div class="col col-lg-2">
+                    <p class="small mb-0 me-2 text-muted">Filter:</p>
+                    <select class="custom-select" id="selectFilter" onchange="changeFilter()">
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <table class="table mb-0" id='table'>
+        <thead>
+        <tr>
+            <th scope="col" style="width: 1%"></th>
+            <th scope="col" style="width: 20%">Creation date</th>
+            <th scope="col" style="width: 58%">Description</th>
+            <th scope="col" style="width: 20%">Priority</th>
+            <th scope="col" style="width: 1%"></th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+    </div>
+</div>
+
+</body>
+</html>

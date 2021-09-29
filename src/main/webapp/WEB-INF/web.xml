@@ -4,4 +4,35 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <listener>
+    <listener-class>ru.job4j.listeners.ContextListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>PrioritiesServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.PrioritiesServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ItemsServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.ItemsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteItemServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.DeleteItemServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>PrioritiesServlet</servlet-name>
+    <url-pattern>/priorities</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ItemsServlet</servlet-name>
+    <url-pattern>/items</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteItemServlet</servlet-name>
+    <url-pattern>/deleteItem</url-pattern>
+  </servlet-mapping>
+
 </web-app>
