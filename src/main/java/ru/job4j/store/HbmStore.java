@@ -2,6 +2,7 @@ package ru.job4j.store;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -151,12 +152,17 @@ public class HbmStore implements Store {
     }
 
     private <T> T executeTransaction(Function<Session, T> f) {
-        T result;
-        Session session = sf.openSession();
-        session.beginTransaction();
-        result = f.apply(session);
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T result = f.apply(session);
+            tx.commit();
+            return result;
+        } catch (final Exception e) {
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 }
