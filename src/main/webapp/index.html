@@ -9,12 +9,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="index.css">
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+    <script src="global.js"></script>
+    <script src="index.js"></script>
+
     <title>TO DO LIST</title>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<script src="index.js"></script>
 <div class="container-fluid gradient-custom">
+
+    <div class="row justify-content-md-end align-items-end">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="" id="username"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="exit">Log Out</a>
+            </li>
+        </ul>
+    </div>
 
     <p class="h1 text-center mt-3 mb-4 pb-3 text-info">
         <u>TO DO LIST</u>
@@ -24,7 +37,7 @@
         <div class="form-row justify-content-md-center">
             <div class="col col-lg-5">
                 <input type="text" class="form-control" placeholder="Add new..." id="description" required
-                       oninvalid="this.setCustomValidity('Добавьте описание задачи')"
+                       oninvalid="this.setCustomValidity('Add task description')"
                        oninput="this.setCustomValidity('')">
             </div>
             <div class="col-md-auto">

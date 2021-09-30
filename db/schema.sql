@@ -1,6 +1,13 @@
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS priorities;
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS filters;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS priorities (
     id SERIAL PRIMARY KEY,
@@ -13,7 +20,8 @@ CREATE TABLE IF NOT EXISTS items (
     description TEXT NOT NULL,
     created TIMESTAMP NOT NULL,
     done BOOLEAN NOT NULL,
-    priority_id INT REFERENCES priorities(id) NOT NULL
+    priority_id INT REFERENCES priorities(id) NOT NULL,
+    user_id INT REFERENCES users(id) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS filters (

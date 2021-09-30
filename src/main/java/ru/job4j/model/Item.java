@@ -22,12 +22,18 @@ public class Item {
     @JoinColumn(name = "priority_id")
     private Priority priority;
 
-    public static Item of(String description, Timestamp created, boolean done, Priority priority) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public static Item of(String description, Timestamp created, boolean done,
+                          Priority priority, User user) {
         Item item = new Item();
         item.setDescription(description);
         item.setCreated(created);
         item.setDone(done);
         item.setPriority(priority);
+        item.setUser(user);
         return item;
     }
 
@@ -69,6 +75,14 @@ public class Item {
 
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

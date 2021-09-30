@@ -1,18 +1,34 @@
 let currentFilter = '1';
 let properties = new Map();
 let items = new Map();
+let user = null;
 
 $(document).ready(function () {
+    $('#exit').attr("href", cPath + 'logout.do');
+    getUser();
     getFilters();
     getPriorities();
-    getToDoList();
 });
+
+function getUser() {
+    $.ajax({
+        type: 'GET',
+        url: cPath + 'user.do',
+        dataType: 'json'
+    }).done(function (data) {
+        user = data;
+        $('#username').text(user.username);
+        getToDoList();
+    }).fail(function (err) {
+        console.log(err);
+    });
+}
 
 function getFilters() {
     $("#selectFilter").empty();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/todo/filters',
+        url: cPath + 'filters.do',
         dataType: 'json'
     }).done(function (data) {
         for (let filter of data) {
@@ -31,7 +47,7 @@ function getPriorities() {
     $("#selectPriority").empty();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/todo/priorities',
+        url: cPath + 'priorities.do',
         dataType: 'json'
     }).done(function (data) {
         for (let priority of data) {
@@ -51,7 +67,7 @@ function getToDoList() {
     $("#tbody").empty();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/todo/items?filter_id=' + currentFilter,
+        url: cPath + 'items.do?filter_id=' + currentFilter + '&user_id=' + user.id,
         dataType: 'json'
     }).done(function (data) {
         for (let item of data) {
@@ -77,16 +93,17 @@ function addItem() {
     let priorityId = parseInt($('#selectPriority').find(":selected").val());
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/todo/items',
+        url: cPath + 'items.do',
         data: JSON.stringify({
             description: lDescription,
             created: new Date().toISOString(),
-            priority: properties.get(priorityId)
+            priority: properties.get(priorityId),
+            user: user
         }),
         dataType: 'text'
     }).done(function(data) {
         if (data !== '200 OK') {
-            $('#notification').text('Не удалось добавить задачу!');
+            $('#notification').text('Failed to add task!');
             console.log(data);
         } else {
             getToDoList();
@@ -104,14 +121,14 @@ function changeCheckBox(itemId, checkbox) {
     item.done = checked;
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/todo/items',
+        url: cPath + 'items.do',
         data: JSON.stringify(item),
         dataType: 'text'
     }).done(function(data) {
         if (data !== '200 OK') {
             item.done = !checked;
             checkbox.checked = !checked;
-            $('#notification').text('Не удалось изменить задачу!');
+            $('#notification').text('Failed to change task!');
             console.log(data);
         } else {
             if (checked) {
@@ -130,12 +147,12 @@ function deleteItem(itemId) {
     let item = items.get(itemId);
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/todo/deleteItem',
+        url: cPath + 'deleteItem.do',
         data: JSON.stringify(item),
         dataType: 'text'
     }).done(function(data) {
         if (data !== '200 OK') {
-            $('#notification').text('Не удалось удалить задачу!');
+            $('#notification').text('Failed to delete task!');
             console.log(data);
         } else {
             $("#item" + itemId).remove();

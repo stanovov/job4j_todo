@@ -5,6 +5,20 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>ru.job4j.filter.AuthFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>*.html</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
   <listener>
     <listener-class>ru.job4j.listeners.ContextListener</listener-class>
   </listener>
@@ -25,22 +39,54 @@
     <servlet-name>FiltersServlet</servlet-name>
     <servlet-class>ru.job4j.servlet.FiltersServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RegServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.RegServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.UserServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>PrioritiesServlet</servlet-name>
-    <url-pattern>/priorities</url-pattern>
+    <url-pattern>/priorities.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ItemsServlet</servlet-name>
-    <url-pattern>/items</url-pattern>
+    <url-pattern>/items.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DeleteItemServlet</servlet-name>
-    <url-pattern>/deleteItem</url-pattern>
+    <url-pattern>/deleteItem.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FiltersServlet</servlet-name>
-    <url-pattern>/filters</url-pattern>
+    <url-pattern>/filters.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegServlet</servlet-name>
+    <url-pattern>/reg.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/user.do</url-pattern>
   </servlet-mapping>
 
 </web-app>
