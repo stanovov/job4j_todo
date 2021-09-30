@@ -3,24 +3,27 @@ let properties = new Map();
 let items = new Map();
 
 $(document).ready(function () {
-    createFilters();
+    getFilters();
     getPriorities();
     getToDoList();
 });
 
-function createFilters() {
-    let filters = [
-        {value : 1, name: "All"},
-        {value : 2, name: "Completed"},
-        {value : 3, name: "Not completed"},
-        {value : 4, name: "High priority"},
-    ];
-    for (let filter of filters) {
-        $('#selectFilter').append($('<option>', {
-            value: filter.value,
-            text: filter.name
-        }));
-    }
+function getFilters() {
+    $("#selectFilter").empty();
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/todo/filters',
+        dataType: 'json'
+    }).done(function (data) {
+        for (let filter of data) {
+            $('#selectFilter').append($('<option>', {
+                value: filter.id,
+                text: filter.name
+            }));
+        }
+    }).fail(function (err) {
+        console.log(err);
+    });
 }
 
 function getPriorities() {

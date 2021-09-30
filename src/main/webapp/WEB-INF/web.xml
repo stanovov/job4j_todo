@@ -21,6 +21,10 @@
     <servlet-name>DeleteItemServlet</servlet-name>
     <servlet-class>ru.job4j.servlet.DeleteItemServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>FiltersServlet</servlet-name>
+    <servlet-class>ru.job4j.servlet.FiltersServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>PrioritiesServlet</servlet-name>
@@ -33,6 +37,10 @@
   <servlet-mapping>
     <servlet-name>DeleteItemServlet</servlet-name>
     <url-pattern>/deleteItem</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FiltersServlet</servlet-name>
+    <url-pattern>/filters</url-pattern>
   </servlet-mapping>
 
 </web-app>

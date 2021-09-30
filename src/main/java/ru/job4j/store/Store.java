@@ -1,5 +1,6 @@
 package ru.job4j.store;
 
+import ru.job4j.model.Filter;
 import ru.job4j.model.Item;
 import ru.job4j.model.Priority;
 
@@ -13,4 +14,5 @@ public interface Store extends AutoCloseable {
     Collection<Item> findItemsByPriority(Priority priority);
     void saveItem(Item item);
     void deleteItem(Integer id);
+    Collection<Filter> findAllFilters();
 }

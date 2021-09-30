@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.model.Filter;
 import ru.job4j.model.Item;
 import ru.job4j.model.Priority;
 
@@ -130,6 +131,18 @@ public class HbmStore implements Store {
         } catch (Exception e) {
             LOG.error("Database query failed. DELETE ITEM", e);
         }
+    }
+
+    @Override
+    public Collection<Filter> findAllFilters() {
+        List<Filter> list = new ArrayList<>();
+        String hql = "FROM ru.job4j.model.Filter ORDER BY id";
+        try {
+            list = executeTransaction(session -> session.createQuery(hql).list());
+        } catch (Exception e) {
+            LOG.error("Database query failed. FIND ALL FILTERS", e);
+        }
+        return list;
     }
 
     @Override
