@@ -25,11 +25,11 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String username = "";
         String password = "";
-        if (!(session.getAttribute("username") == null)) {
+        if ((session.getAttribute("username") != null)) {
             username = (String) session.getAttribute("username");
             session.removeAttribute("username");
         }
-        if (!(session.getAttribute("password") == null)) {
+        if ((session.getAttribute("password") != null)) {
             password = (String) session.getAttribute("password");
             session.removeAttribute("password");
         }
