@@ -1,9 +1,6 @@
 package ru.job4j.store;
 
-import ru.job4j.model.Filter;
-import ru.job4j.model.Item;
-import ru.job4j.model.Priority;
-import ru.job4j.model.User;
+import ru.job4j.model.*;
 
 import java.util.Collection;
 
@@ -18,4 +15,5 @@ public interface Store extends AutoCloseable {
     Collection<Filter> findAllFilters();
     User findUserByUsername(String username);
     void saveUser(User user);
+    Collection<Category> findAllCategories();
 }

@@ -9,10 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.model.Filter;
-import ru.job4j.model.Item;
-import ru.job4j.model.Priority;
-import ru.job4j.model.User;
+import ru.job4j.model.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,7 +66,10 @@ public class HbmStore implements Store {
     @Override
     public Collection<Item> findAllItems(User user) {
         List<Item> list = new ArrayList<>();
-        String hql = "from ru.job4j.model.Item WHERE user = :pUser ORDER BY created";
+        String hql = "select distinct i from ru.job4j.model.Item i "
+                    + "left join fetch i.categories c "
+                    + "where i.user = :pUser "
+                    + "order by i.created";
         try {
             list = executeTransaction(session -> session.createQuery(hql)
                     .setParameter("pUser", user)
@@ -83,7 +83,10 @@ public class HbmStore implements Store {
     @Override
     public Collection<Item> findItemsByDone(User user, boolean done) {
         List<Item> list = new ArrayList<>();
-        String hql = "from ru.job4j.model.Item WHERE done = :pDone AND user = :pUser ORDER BY created";
+        String hql = "select distinct i from ru.job4j.model.Item i "
+                    + "left join fetch i.categories c "
+                    + "where i.done = :pDone AND i.user = :pUser "
+                    + "order by i.created";
         try {
             list = executeTransaction(session -> session.createQuery(hql)
                     .setParameter("pDone", done)
@@ -98,7 +101,10 @@ public class HbmStore implements Store {
     @Override
     public Collection<Item> findItemsByPriority(User user, Priority priority) {
         List<Item> list = new ArrayList<>();
-        String hql = "from ru.job4j.model.Item WHERE priority = :pPriority AND user = :pUser ORDER BY created";
+        String hql = "select distinct i from ru.job4j.model.Item i "
+                    + "left join fetch i.categories c "
+                    + "where i.priority = :pPriority AND i.user = :pUser "
+                    + "order by i.created";
         try {
             list = executeTransaction(session -> session.createQuery(hql)
                     .setParameter("pPriority", priority)
@@ -180,6 +186,18 @@ public class HbmStore implements Store {
         } catch (Exception e) {
             LOG.error("Database query failed. SAVE ITEM", e);
         }
+    }
+
+    @Override
+    public Collection<Category> findAllCategories() {
+        List<Category> list = new ArrayList<>();
+        String hql = "FROM ru.job4j.model.Category ORDER BY id";
+        try {
+            list = executeTransaction(session -> session.createQuery(hql).list());
+        } catch (Exception e) {
+            LOG.error("Database query failed. FIND ALL CATEGORIES");
+        }
+        return list;
     }
 
     @Override

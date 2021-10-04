@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS priorities;
 DROP TABLE IF EXISTS users;
@@ -24,6 +25,11 @@ CREATE TABLE IF NOT EXISTS items (
     user_id INT REFERENCES users(id) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS filters (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255)
@@ -34,3 +40,6 @@ VALUES (3, 'Low priority'), (2, 'Middle priority'), (1, 'High priority');
 
 INSERT INTO filters(name)
 VALUES ('All'), ('Completed'), ('Not completed'), ('High priority');
+
+INSERT INTO categories(name)
+VALUES ('Personal'), ('Work'), ('Education');

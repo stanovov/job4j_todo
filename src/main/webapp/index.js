@@ -1,5 +1,6 @@
 let currentFilter = '1';
-let properties = new Map();
+let priorities = new Map();
+let categories = new Map();
 let items = new Map();
 let user = null;
 
@@ -8,6 +9,7 @@ $(document).ready(function () {
     getUser();
     getFilters();
     getPriorities();
+    getCategories();
 });
 
 function getUser() {
@@ -43,7 +45,7 @@ function getFilters() {
 }
 
 function getPriorities() {
-    properties.clear();
+    priorities.clear();
     $("#selectPriority").empty();
     $.ajax({
         type: 'GET',
@@ -51,10 +53,30 @@ function getPriorities() {
         dataType: 'json'
     }).done(function (data) {
         for (let priority of data) {
-            properties.set(priority.id, priority);
+            priorities.set(priority.id, priority);
             $('#selectPriority').append($('<option>', {
                 value: priority.id,
                 text: priority.name
+            }));
+        }
+    }).fail(function (err) {
+        console.log(err);
+    });
+}
+
+function getCategories() {
+    categories.clear();
+    $('#selectCategories').empty();
+    $.ajax({
+        type: 'GET',
+        url: cPath + 'categories.do',
+        dataType: 'json'
+    }).done(function (data) {
+        for (let category of data) {
+            categories.set(category.id, category);
+            $('#selectCategories').append($('<option>', {
+                value: category.id,
+                text: category.name
             }));
         }
     }).fail(function (err) {
@@ -91,14 +113,20 @@ function addItem() {
     $('#notification').text('');
     let lDescription = $('#description').val();
     let priorityId = parseInt($('#selectPriority').find(":selected").val());
+    let lCategories = $('#selectCategories').find(":selected").map(function () {
+        return $(this).val();
+    }).get().map(function (key) {
+        return categories.get(parseInt(key));
+    });
     $.ajax({
         type: 'POST',
         url: cPath + 'items.do',
         data: JSON.stringify({
             description: lDescription,
             created: new Date().toISOString(),
-            priority: properties.get(priorityId),
-            user: user
+            priority: priorities.get(priorityId),
+            user: user,
+            categories: lCategories
         }),
         dataType: 'text'
     }).done(function(data) {
@@ -165,10 +193,14 @@ function deleteItem(itemId) {
 function addRow(item) {
     const formattedDate = getFormattedDate(new Date(item.created));
     const priorityColor = getPriorityColor(item.priority.value);
+    const lCategories = item.categories.map(function (category) {
+        return category['name'];
+    }).join(', ');
     let row = `<tr class="fw-normal${item.done ? " del" : ""}" id="${"item" + item.id}">`
         + `<th><input class="form-check-input me-2" type="checkbox" value="" aria-label="..." onchange="changeCheckBox(${item.id}, this)" ${item.done ? "checked" : ""}/></th>`
         + `<td><span class="ms-2">${formattedDate}</span></td>`
         + `<td class="align-middle">${item.description}</td>`
+        + `<td class="align-middle">${lCategories}</td>`
         + `<td class="align-middle"><h6 class="mb-0"><span class="badge ${priorityColor}">${item.priority.name}</span></h6></td>`
         + `<td class="align-middle"><a href=""><i onclick="deleteItem(${item.id}); return false;" class="fa fa-trash mr-3 text-danger"></i></a></td>`
         + `</tr>`;

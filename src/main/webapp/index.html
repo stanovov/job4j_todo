@@ -48,6 +48,17 @@
                 <button type="submit" class="btn btn-info mb-2">ADD</button>
             </div>
         </div>
+
+        <div class="form-row justify-content-md-center">
+            <label class="col-form-label col-sm-0 text-info" for="selectCategories" style="font-weight: 800">Categories:</label>
+            <div class="col-sm-5">
+                <select class="form-control" name="selectCategories" id="selectCategories" multiple required
+                        oninvalid="this.setCustomValidity('Select a category')"
+                        oninput="this.setCustomValidity('')">
+                </select>
+            </div>
+        </div>
+
     </form>
 
     <div class="row justify-content-center align-items-center pt-1">
@@ -71,9 +82,10 @@
         <thead>
         <tr>
             <th scope="col" style="width: 1%"></th>
-            <th scope="col" style="width: 20%">Creation date</th>
-            <th scope="col" style="width: 58%">Description</th>
-            <th scope="col" style="width: 20%">Priority</th>
+            <th scope="col" style="width: 15%">Creation date</th>
+            <th scope="col" style="width: 43%">Description</th>
+            <th scope="col" style="width: 25%">Categories</th>
+            <th scope="col" style="width: 15%">Priority</th>
             <th scope="col" style="width: 1%"></th>
         </tr>
         </thead>

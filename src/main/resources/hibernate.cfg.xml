@@ -18,5 +18,6 @@
         <mapping class="ru.job4j.model.Priority" />
         <mapping class="ru.job4j.model.Filter" />
         <mapping class="ru.job4j.model.User" />
+        <mapping class="ru.job4j.model.Category" />
     </session-factory>
 </hibernate-configuration>
