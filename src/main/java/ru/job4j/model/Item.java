@@ -3,6 +3,7 @@ package ru.job4j.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +17,8 @@ public class Item {
 
     private String description;
 
-    private Timestamp created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
     private boolean done;
 
@@ -31,11 +33,10 @@ public class Item {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Category> categories = new ArrayList<>();
 
-    public static Item of(String description, Timestamp created, boolean done,
-                          Priority priority, User user) {
+    public static Item of(String description, boolean done, Priority priority, User user) {
         Item item = new Item();
         item.setDescription(description);
-        item.setCreated(created);
+        item.setCreated(new Date(System.currentTimeMillis()));
         item.setDone(done);
         item.setPriority(priority);
         item.setUser(user);
@@ -58,11 +59,11 @@ public class Item {
         this.description = description;
     }
 
-    public Timestamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Timestamp created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
