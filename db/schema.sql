@@ -30,6 +30,11 @@ CREATE TABLE IF NOT EXISTS categories (
     name VARCHAR(255)
 );
 
+CREATE TABLE IF NOT EXISTS items_categories (
+    item_id INT REFERENCES items(id) NOT NULL,
+    categories_id INT REFERENCES categories(id) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS filters (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255)
